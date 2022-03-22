@@ -2,5 +2,6 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: ['**/src/**/*js'],
   coverageDirectory: 'coverage',
-  coverageProvider: 'v8'
+  coverageProvider: 'v8',
+  modulePathIgnorePatterns: ['.history']
 }
