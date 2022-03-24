@@ -20,7 +20,9 @@ class AuthUseCase {
     }
 
     const user = await this.loadUserByEmailRepository.load(email)
-    return user
+    if (!user) {
+      return null
+    }
   }
 }
 
@@ -28,7 +30,6 @@ const makeSut = () => {
   class LoadUserByEmailRepositorySpy {
     async load (email) {
       this.email = email
-      return null
     }
   }
 
