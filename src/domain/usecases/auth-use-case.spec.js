@@ -70,20 +70,34 @@ const makeLoadUserByEmailRepositoryWithError = () => {
   return new LoadUserByEmailRepositoryWithErrorSpy()
 }
 
+const makeUpdateAccessTokenRepository = () => {
+  class UpdateAccessTokenRepository {
+    async update (userId, accessToken) {
+      this.userId = userId
+      this.accessToken = accessToken
+    }
+  }
+
+  return new UpdateAccessTokenRepository()
+}
+
 const makeSut = () => {
+  const updateAccessTokenRepositorySpy = makeUpdateAccessTokenRepository()
   const loadUserByEmailRepositorySpy = makeLoadUserByEmailRepository()
   const encrypterSpy = makeEncrypter()
   const tokenGeneratorSpy = makeTokenGenerator()
   const sut = new AuthUseCase({
     loadUserByEmailRepository: loadUserByEmailRepositorySpy,
     encrypter: encrypterSpy,
-    tokenGenerator: tokenGeneratorSpy
+    tokenGenerator: tokenGeneratorSpy,
+    updateAccessTokenRepository: updateAccessTokenRepositorySpy
   })
   return {
     loadUserByEmailRepositorySpy,
     sut,
     encrypterSpy,
-    tokenGeneratorSpy
+    tokenGeneratorSpy,
+    updateAccessTokenRepositorySpy
   }
 }
 
@@ -174,5 +188,12 @@ describe('authUseCase', () => {
       const promise = sut.auth('any_email@email.com', 'any_passwod')
       await expect(promise).rejects.toThrow()
     }
+  })
+
+  it('Should call UpdateAcessTokenRepository with correct values', async () => {
+    const { sut, loadUserByEmailRepositorySpy, updateAccessTokenRepositorySpy, tokenGeneratorSpy } = makeSut()
+    await sut.auth('valid_email', 'valid_password')
+    expect(updateAccessTokenRepositorySpy.userId).toBe(loadUserByEmailRepositorySpy.user.id)
+    expect(updateAccessTokenRepositorySpy.accessToken).toBe(tokenGeneratorSpy.accessToken)
   })
 })
