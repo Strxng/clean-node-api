@@ -3,5 +3,6 @@ module.exports = {
   collectCoverageFrom: ['**/src/**/*js'],
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
-  modulePathIgnorePatterns: ['.history']
+  modulePathIgnorePatterns: ['.history'],
+  preset: '@shelf/jest-mongodb'
 }
