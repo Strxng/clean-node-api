@@ -42,4 +42,15 @@ describe('UpdateAccessToken Repository tests', () => {
     const userGet = await userModel.findOne({ _id: userAdd.insertedId })
     expect(userGet.accessToken).toBe('valid_access_token')
   })
+
+  it('Should UpdateAccessTokenRepo throws if userModel is not provided', async () => {
+    const sut = new UpdateAccessTokenRepository()
+    const userAdd = await userModel.insertOne({
+      email: 'registed_email@email.com',
+      password: '123'
+    })
+
+    const promise = sut.update(userAdd.insertedId, 'valid_access_token')
+    expect(promise).rejects.toThrow()
+  })
 })
