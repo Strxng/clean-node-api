@@ -1,5 +1,11 @@
-const app = require('./config/app')
+const MongoHelper = require('../infra/helpers/mongo-helper')
+const env = require('./config/env')
 
-app.listen(8081, () => {
-  console.log('Server runing')
-})
+MongoHelper.connect(env.mongoUrl)
+  .then(() => {
+    const app = require('./config/app')
+
+    app.listen(8081, () => {
+      console.log('Server runing')
+    })
+  }).catch(console.error)
