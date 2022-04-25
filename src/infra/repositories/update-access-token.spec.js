@@ -5,7 +5,7 @@ const UpdateAccessTokenRepository = require('./updateAccessTokenRepository')
 let userModel
 
 const makeSut = () => {
-  return new UpdateAccessTokenRepository(userModel)
+  return new UpdateAccessTokenRepository()
 }
 
 describe('UpdateAccessToken Repository tests', () => {
@@ -34,12 +34,6 @@ describe('UpdateAccessToken Repository tests', () => {
     await sut.update(userInsertedId, 'valid_access_token')
     const userGet = await userModel.findOne({ _id: userInsertedId })
     expect(userGet.accessToken).toBe('valid_access_token')
-  })
-
-  it('Should UpdateAccessTokenRepo throws if userModel is not provided', async () => {
-    const sut = new UpdateAccessTokenRepository()
-    const promise = sut.update(userInsertedId, 'valid_access_token')
-    expect(promise).rejects.toThrow()
   })
 
   it('Should UpdateAccessTokenRepo throws if no params is provided', async () => {
