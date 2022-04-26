@@ -37,6 +37,7 @@
     "supertest": "^6.2.2"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "express": "^4.17.3",
     "fast-glob": "^3.2.11",
     "jsonwebtoken": "^8.5.1",
