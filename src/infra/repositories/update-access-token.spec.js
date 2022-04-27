@@ -13,7 +13,7 @@ describe('UpdateAccessToken Repository tests', () => {
 
   beforeAll(async () => {
     await MongoHelper.connect(global.__MONGO_URI__)
-    userModel = await MongoHelper.db.collection('user')
+    userModel = await MongoHelper.getCollection('user')
   })
 
   beforeEach(async () => {
