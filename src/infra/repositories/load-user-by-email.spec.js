@@ -1,4 +1,5 @@
 const LoadUserByEmailRepository = require('./loadUserByEmailRepository')
+const { MissingParamError } = require('../../utils/errors')
 const MongoHelper = require('../helpers/mongo-helper')
 let userModel
 
@@ -24,6 +25,12 @@ describe('LoadUserByEmail Repository', () => {
     const sut = makeSut()
     const user = await sut.load('unregisted_email@email.com')
     expect(user).toBe(null)
+  })
+
+  it('Should LoadUserByEmail Repository throws if no email is provided', async () => {
+    const sut = makeSut()
+    const promise = sut.load()
+    expect(promise).rejects.toThrow(new MissingParamError('email'))
   })
 
   it('Should return an user if user is found', async () => {
