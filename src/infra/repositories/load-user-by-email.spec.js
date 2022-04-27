@@ -10,7 +10,7 @@ const makeSut = () => {
 describe('LoadUserByEmail Repository', () => {
   beforeAll(async () => {
     await MongoHelper.connect(global.__MONGO_URI__)
-    userModel = await MongoHelper.getCollection('user')
+    userModel = await MongoHelper.getCollection('users')
   })
 
   beforeEach(async () => {
